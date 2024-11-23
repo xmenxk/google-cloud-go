@@ -16,7 +16,7 @@ package grpctransport
 
 import (
 	"context"
-	"log"
+	"log/slog"
 	"net"
 	"os"
 	"strconv"
@@ -137,15 +137,15 @@ func logDirectPathMisconfig(endpoint string, creds *auth.Credentials, o *Options
 
 	// Case 1: does not enable DirectPath
 	if !isDirectPathEnabled(endpoint, o) {
-		log.Println("WARNING: DirectPath is disabled. To enable, please set the EnableDirectPath option along with the EnableDirectPathXds option.")
+		slog.Warn("DirectPath is disabled. To enable, please set the EnableDirectPath option along with the EnableDirectPathXds option.")
 	} else {
 		// Case 2: credential is not correctly set
 		if !isTokenProviderDirectPathCompatible(creds, o) {
-			log.Println("WARNING: DirectPath is disabled. Please make sure the token source is fetched from GCE metadata server and the default service account is used.")
+			slog.Warn("DirectPath is disabled. Please make sure the token source is fetched from GCE metadata server and the default service account is used.")
 		}
 		// Case 3: not running on GCE
 		if !compute.OnComputeEngine() {
-			log.Println("WARNING: DirectPath is disabled. DirectPath is only available in a GCE environment.")
+			slog.Warn("DirectPath is disabled. DirectPath is only available in a GCE environment.")
 		}
 	}
 }

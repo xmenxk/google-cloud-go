@@ -115,7 +115,7 @@ func TestLogDirectPathMisconfigAttrempDirectPathNotSet(t *testing.T) {
 
 	logDirectPathMisconfig(endpoint, creds, opts)
 
-	wantedLog := "WARNING: DirectPath is disabled. To enable, please set the EnableDirectPath option along with the EnableDirectPathXds option."
+	wantedLog := "WARN DirectPath is disabled. To enable, please set the EnableDirectPath option along with the EnableDirectPathXds option."
 	if !strings.Contains(buf.String(), wantedLog) {
 		t.Fatalf("got: %v, want: %v", buf.String(), wantedLog)
 	}
@@ -135,7 +135,7 @@ func TestLogDirectPathMisconfigWrongCredential(t *testing.T) {
 
 	logDirectPathMisconfig(endpoint, creds, opts)
 
-	wantedLog := "WARNING: DirectPath is disabled. Please make sure the token source is fetched from GCE metadata server and the default service account is used."
+	wantedLog := "WARN DirectPath is disabled. Please make sure the token source is fetched from GCE metadata server and the default service account is used."
 	if !strings.Contains(buf.String(), wantedLog) {
 		t.Fatalf("got: %v, want: %v", buf.String(), wantedLog)
 	}
@@ -159,7 +159,7 @@ func TestLogDirectPathMisconfigNotOnGCE(t *testing.T) {
 	logDirectPathMisconfig(endpoint, creds, opts)
 
 	if !metadata.OnGCE() {
-		wantedLog := "WARNING: DirectPath is disabled. DirectPath is only available in a GCE environment."
+		wantedLog := "WARN DirectPath is disabled. DirectPath is only available in a GCE environment."
 		if !strings.Contains(buf.String(), wantedLog) {
 			t.Fatalf("got: %v, want: %v", buf.String(), wantedLog)
 		}
